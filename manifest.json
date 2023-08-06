@@ -1,5 +1,6 @@
 {
     "manifest_version": 3,
     "name": "MouYu",
-    "version": "1.0.1",
+    "description": "A plain text description",
+    "version": "1.0.1"
 }
