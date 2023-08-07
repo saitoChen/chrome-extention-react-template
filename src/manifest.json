@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "MouYu",
+    "description": "A plain text description",
+    "version": "1.0.1",
+    "action": {
+        "default_title": "Click Me",   // optional, shown in tooltip
+        "default_popup": "popup.html"  // optional
+    }
+}

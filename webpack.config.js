@@ -3,11 +3,16 @@
  * @Date: 2023-08-06 00:01:46
  * @Description: 
  */
+const path = require('path')
+const copyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
-    entry: "./src/index.tsx",
+    entry: {
+        filename: './src/popup/popup.tsx'
+    },
     output: {
-        filename: './dist/index.js'
+        filename: 'index.js'
     },
     module: {
         rules: [
@@ -18,6 +23,17 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new copyWebpackPlugin({
+            patterns: [
+              { from: path.resolve('src/manifest.json'), to:path.resolve('dist') },
+            ],
+        }),
+        new HtmlWebpackPlugin({
+            title: 'test',
+            filename: 'popup.html'
+        })
+    ],
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
     }
