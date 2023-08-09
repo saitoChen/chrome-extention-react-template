@@ -6,13 +6,13 @@
 const path = require('path')
 const copyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const tailwindcss = require('tailwindcss')
+const autoprefixer = require('autoprefixer')
+
 module.exports = {
     mode: 'development',
     entry: {
-        filename: './src/popup/popup.tsx'
-    },
-    output: {
-        filename: 'index.js'
+        popup: path.resolve('./src/popup/popup.tsx')
     },
     module: {
         rules: [
@@ -20,21 +20,38 @@ module.exports = {
                 use: 'ts-loader',
                 test: /\.tsx$/,
                 exclude: /node_modules/
+            },
+            {
+                use: ['style-loader', 'css-loader', {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            ident: 'postcss',
+                            plugins: [tailwindcss, autoprefixer]
+                        }
+                    }
+                }],
+                test: /\.css$/i
             }
         ]
     },
     plugins: [
         new copyWebpackPlugin({
             patterns: [
-              { from: path.resolve('src/manifest.json'), to:path.resolve('dist') },
+                { from: path.resolve('src/static'), to:path.resolve('dist') },
             ],
         }),
         new HtmlWebpackPlugin({
             title: 'test',
-            filename: 'popup.html'
+            filename: 'popup.html',
+            chunks: ['popup']
         })
     ],
+    devtool: 'cheap-module-source-map',
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
+    },
+    output: {
+        filename: '[name].js'
     }
 }
